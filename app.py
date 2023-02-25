@@ -5,8 +5,10 @@ from Routes.user import mongo_routes
 from Routes.dalle import dalle_routes
 from Routes.meeting import meeting_routes
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_cors import CORS
   
-app = Flask(__name__) #creating the Flask class object   
+app = Flask(__name__) #creating the Flask class object
+CORS(app)   
 app.register_blueprint(app_routes)
 app.register_blueprint(chatgpt_routes)
 app.register_blueprint(mongo_routes)

@@ -3,6 +3,8 @@ from pymongo import MongoClient
 import bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from bson.json_util import dumps
+from .chatgpt import summary, completed, inprogress, sprints, budget
+import json
 
 meeting_routes = Blueprint('meeting_routes', __name__)
 
@@ -104,11 +106,13 @@ def update_summary():
         data = request.get_json()
         username = data['username']
         file_name = data['file_name']
-        summary = data['summary']
+        
+        res = db.meeting.find_one({'username':username, 'file_name':file_name})['transcript']
+        summary_res = summary(res)
 
         result = db.meeting.update_one(
             {'username':username, 'file_name':file_name},
-            {'$set' :{'summary':summary}}
+            {'$set' :{'summary':summary_res}}
         )
 
         # Send a response indicating success
@@ -137,12 +141,14 @@ def update_completed_task():
         data = request.get_json()
         username = data['username']
         file_name = data['file_name']
-        completed_task = data['completed_task']
 
-        for complete in completed_task:
+        res = db.meeting.find_one({'username':username, 'file_name':file_name})['transcript']
+        completed_task = completed(res)
+        task = completed_task.values()
+        for t in task:
             result = db.meeting.update_one(
                 {'username':username, 'file_name':file_name},
-                {'$push' :{'completed_task':complete}}
+                {'$push' :{'completed_task':t}}
             )
 
         # Send a response indicating success
@@ -173,10 +179,13 @@ def update_pending_task():
         file_name = data['file_name']
         pending_task = data['pending_task']
 
-        for pending in pending_task:
+        res = db.meeting.find_one({'username':username, 'file_name':file_name})['transcript']
+        pending_task = inprogress(res)
+        task = pending_task.values()
+        for t in task:
             result = db.meeting.update_one(
                 {'username':username, 'file_name':file_name},
-                {'$push' :{'in_progress_task':pending}}
+                {'$push' :{'in_progress_task':t}}
             )
 
         # Send a response indicating success
@@ -205,16 +214,22 @@ def update_sprint_work():
         data = request.get_json()
         username = data['username']
         file_name = data['file_name']
-        sprint_executed_by = data['sprint_executed_by']
-        sprint_completed_task = data['sprint_completed_task']  
+        # sprint_executed_by = data['sprint_executed_by']
+        # sprint_completed_task = data['sprint_completed_task'] 
 
-        result = db.meeting.update_one(
-            {'username':username, 'file_name':file_name},
-            {'$push': {'sprint_work':{
-                'name': sprint_executed_by,
-                'completed_task': sprint_completed_task
-            }}}
-        )
+        res = db.meeting.find_one({'username':username, 'file_name':file_name})['transcript']
+        sprint =  sprints(res)
+        sprint_executed_by = sprint.keys()
+        sprint_completed_task = sprint.values()
+        for se in sprint_executed_by:
+            result = db.meeting.update_one(
+                {'username':username, 'file_name':file_name},
+                {'$push':{'sprint_work':{
+                    'name': se,
+                    'completed_task': sprint[se]
+                }}}
+            )
+
         # Send a response indicating success
         response = jsonify({'message': 'test case updated successfully'})
         response.status_code = 201
