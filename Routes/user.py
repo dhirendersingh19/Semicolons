@@ -156,14 +156,16 @@ def delete_user(username):
 @mongo_routes.route('/login', methods=['POST'])
 def login():
     try:
+
+        # Connect to MongoDB and retrieve user data
+        client = MongoClient(uri)
+        db = client[db_name]
+        
         # Extract user data from request body
         data = request.get_json()
         username = data['username']
         password = data['password']
 
-        # Connect to MongoDB and retrieve user data
-        client = MongoClient(uri)
-        db = client[db_name]
         user = db.users.find_one({'username': username})
 
         # Check if the user exists and the password is correct
@@ -172,17 +174,20 @@ def login():
             access_token = create_access_token(identity=username)
             response = jsonify({'access_token': access_token})
             response.status_code = 200
+            response.headers.add("Access-Control-Allow-Origin", "*")
             return response
 
         # Send a response indicating authentication failure
         response = jsonify({'error': 'Invalid username or password'})
         response.status_code = 401
+        response.headers.add("Access-Control-Allow-Origin", "*")
         return response
 
     except Exception as e:
         print('Failed to authenticate user:', e)
         response = jsonify({'error': 'Failed to authenticate user'})
         response.status_code = 500
+        response.headers.add("Access-Control-Allow-Origin", "*")
         return response
 
     finally:
