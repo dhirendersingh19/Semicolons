@@ -244,3 +244,28 @@ def update_sprint_work():
     finally:
         # Close the MongoDB client
         client.close()
+
+#get documents by username
+@meeting_routes.route('/get-documents', methods=['GET'])
+def get_documents():
+    try:
+        # Connect to MongoDB
+        client = MongoClient(uri)
+        db = client[db_name]
+
+        data = request.get_json()
+        username = data['username']
+
+        result = db.meeting.find({'username':username})
+        return dumps(result)
+
+    except Exception as e:
+        print('Failed to update sprint work:', e)
+        response = jsonify({'error': 'Failed to update sprint work'})
+        response.status_code = 500
+        return response
+
+    finally:
+        # Close the MongoDB client
+        client.close()
+
