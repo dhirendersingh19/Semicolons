@@ -1,0 +1,27 @@
+<div class="notes-list">
+    <div class="sidebar">
+        <!-- <h2>Notes List</h2> -->
+        <mat-list *ngFor="let item of item_list; let i = index;">
+            <!-- <mat-list-item>
+                <span>{{ item.name }}</span>
+                <span class="spacer">
+                    <mat-icon class="spacer2" (click)="preview(i)">preview</mat-icon>
+                </span>
+            </mat-list-item> -->
+            <mat-list-item class="matlist-item" (click)="preview(i)">
+                <span matListItemIcon>
+                    <mat-icon color="primary" class="spacer2">preview</mat-icon>
+                </span>
+                <span matListItemTitle>{{item.name}}</span>
+                <span matListItemLine>23-02-22 16:15:23</span>
+                <!-- <button mat-icon-button (click)="download('../../assets/ppts/yourfile.pptx')" matListItemMeta>
+                    <span>
+                        <mat-icon color="primary">download</mat-icon>
+                        <span class="download">Download</span>
+                    </span>
+                </button> -->
+            </mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </div>
+</div>

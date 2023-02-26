@@ -1,0 +1,26 @@
+<app-stepper [step]="1"></app-stepper>
+
+<!-- <mat-grid-list cols="4" rowHeight="16:9" gutterSize="15"> -->
+    <!-- <mat-grid-tile colspan="4"> -->
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <mat-label>Meeting Transcript</mat-label>
+                <textarea matInput placeholder="Your meeting transcript goes here..." rows="8"></textarea>
+            </mat-form-field>
+        
+            <div class="form-format">
+                <span>
+                    <label for="file" class="label">Upload Test Cases</label>
+                    <input class="btn-hide" (change)="onFileSelected()" #fileInput type="file" id="file">
+                    <button class="btn-block" type="button" mat-raised-button color="warn" (click)="fileInput.click()">Choose File</button>
+                </span>
+                
+                <span>
+                    <label for="upload-btn" class="label" id="label2">Upload Data</label>
+                    <button class="btn-block" mat-raised-button color="primary">Upload</button>
+                </span>
+            </div>
+        
+        </form>
+    <!-- </mat-grid-tile> -->
+<!-- </mat-grid-list> -->

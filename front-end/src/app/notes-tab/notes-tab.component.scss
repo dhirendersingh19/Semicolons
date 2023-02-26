@@ -1,0 +1,57 @@
+// .sidebar {
+//     // color: #fff;
+// 	width: 100%;
+// 	// height: 100%;
+// 	position: relative;
+// 	top: 0;
+// 	left: 0;
+// 	padding: 20px;
+// }
+
+// .notes-list {
+//     background-color: lightyellow;
+//     width: 23vw;
+//     height: 89vh;
+//     overflow-y: scroll;
+//     overflow-x: hidden;
+// }
+
+// .spacer
+// {
+//     margin-left: 35px;
+// }
+
+// .spacer2
+// {
+//     margin-left: 15px;
+// }
+
+// mat-list-item + span
+// {
+//     padding-top: -3px;
+// }
+
+// mat-icon
+// {
+//     font-size: 25px;
+// }
+
+
+
+// changed from here
+:host {
+    width: 100%;
+    height: 100%;
+}
+
+.download
+{
+    font-weight: 500;
+    font-family: sans-serif;
+    font-size: 10px;
+    margin-left: -10px;
+}
+
+.matlist-item {
+    cursor: pointer;
+}

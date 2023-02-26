@@ -1,0 +1,32 @@
+<button 
+      *ngIf="events.length > 0"
+      mat-icon-button 
+      [matMenuTriggerFor]="menu"
+      class="example-icon favorite-icon" 
+      aria-label="Example icon-button with heart icon"
+    >
+    <mat-icon [matBadge]="events.length" matBadgeColor="warn">notifications</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <ng-template matMenuContent>
+        <mat-list>
+            <mat-list-item *ngFor="let event of events">
+                <span matListItemIcon>
+                    <mat-icon color="{{ event.success ? 'primary' : 'warn' }}">{{event.success ? 'check_circle' : 'do_not_disturb_on'}}</mat-icon>
+                </span>
+                <span matListItemTitle>{{ event.api }}</span>
+                <span matListItemLine>{{ event.time }}</span>
+            </mat-list-item>
+        </mat-list>
+    </ng-template>
+</mat-menu>
+
+<!-- <mat-list>
+    <mat-list-item *ngFor="let event of events">
+        <span matListItemIcon>
+            <mat-icon color="{{ event.success ? 'primary' : 'warn' }}">{{event.success ? 'check_circle' : 'do_not_disturb_on'}}</mat-icon>
+        </span>
+        <span matListItemTitle>{{ event.api }}</span>
+        <span matListItemLine>{{ event.time }}</span>
+    </mat-list-item>
+</mat-list> -->

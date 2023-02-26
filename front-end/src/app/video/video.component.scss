@@ -1,0 +1,25 @@
+mat-grid-tile {
+    // border: 1px solid black;
+}
+
+.video-list ::ng-deep .mat-grid-tile-content{
+    justify-content: flex-start;
+    align-items: stretch;
+    .list-card {
+        width: 100%;
+    }        
+}
+
+.video-card {
+    padding: 15rem;
+}
+
+.matlist-item
+{
+    cursor: pointer;
+}
+
+.download
+{
+    margin-left: -10px;
+}

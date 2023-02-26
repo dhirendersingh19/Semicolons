@@ -1,0 +1,152 @@
+<!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button> -->
+<mat-stepper [linear]="isLinear" #stepper>
+
+  <!-- Start of step 1 -->
+
+  <mat-step [stepControl]="firstFormGroup">
+    <!-- <form [formGroup]="firstFormGroup"> -->
+      <ng-template matStepLabel>Generate transcript</ng-template>
+      <!-- <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        </mat-form-field> -->
+      <div class="flex-div">
+        <div>
+          <!-- <ng-template matStepLabel>Fill out your name</ng-template> -->
+          <h4 class="m-topneg">Upload Audio</h4>
+          <input hidden type="file" #fileInput1>
+          <button class="btn-block" type="button" mat-raised-button color="warn" (click)="fileInput1.click()">Choose
+            File</button>
+            <br>
+            <button mat-raised-button color="primary" class="up-btn" (click)="showAudio()">Upload</button>
+            <br>
+            <br>
+            <audio [hidden]="audio_hide" controls src="../../assets/audio/Sprint1.m4a"></audio>
+          </div>
+          <div class="p-top">
+            <button mat-raised-button color="warn" class="m-top" (click)="showSpinner1(1)">Generate Transcript</button>
+            <br>
+            <!-- <mat-form-field class="example-full-width"> -->
+              <mat-label>Your generated transcript : </mat-label>
+              <textarea rows="5" style="display: block;" id="gen-trans" [(ngModel)]="gen_trans" matInput placeholder="Generated Transcript..."></textarea>
+            
+          <!-- </mat-form-field> -->
+        </div>
+      </div>
+
+      <div class="spinner-con1" [hidden]="hide_spinner1">
+        <mat-spinner class="spinner1"></mat-spinner>
+        <p>Generating transcript...</p>
+      </div>
+
+      <div class="steps-btn1">
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    <!-- </form> -->
+  </mat-step>
+
+  <!-- End of step 1 -->
+
+  <mat-step [stepControl]="secondFormGroup" label="Fill Notes">
+    <form [formGroup]="secondFormGroup">
+      <div class="flex-div2">
+        <div>
+          <h4 class="center-text-left">Enter your meeting notes below</h4>
+        </div>
+        <mat-form-field appearance="fill" class="test">
+          <mat-label>Your notes goes here</mat-label>
+          <!-- <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required> -->
+          <textarea matInput placeholder="Notes..." required rows="10" class="fill-notes"></textarea>
+        </mat-form-field>
+
+        <div>
+          <button (click)="upload_transcript()" mat-raised-button color="primary" class="m-bot">Submit</button>
+        </div>
+      </div>
+      <div class="steps-btn">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- End of step 2 -->
+
+  <mat-step>
+    <ng-template matStepLabel>Generate Slide</ng-template>
+    <div class="flex-div">
+      <!-- <form class="example-form" name="genslideform"> -->
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Project Name</mat-label>
+          <input name="pname" matInput placeholder="Ex. Dummy project1" [(ngModel)]="pname" required>
+        </mat-form-field> -->
+        <br>
+        <button mat-raised-button color="warn" class="up-btn upb2" (click)="genslidebtn.click()">
+          Generate Slides
+        </button>
+        <input name="submit" #genslidebtn hidden value="Generate Slides" mat-raised-button color="warn"
+          class="up-btn" (click)="slide()">
+
+      <!-- </form> -->
+      <!-- <input type="text" placeholder="Project Name" > -->
+    </div>
+
+    <div class="spinner-con1" [hidden]="hide_spinner2">
+      <mat-spinner class="spinner1"></mat-spinner>
+      <p id="server-msg1">Generating slides...</p>
+    </div>
+
+    <div class="steps-btn">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+      <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+    </div>
+  </mat-step>
+
+  <!-- End of step 3 -->
+
+  <mat-step>
+    <ng-template matStepLabel>Generate Demo Video</ng-template>
+    <div class="flex-div">
+      <div>
+        <!-- <ng-template matStepLabel>Fill out your name</ng-template> -->
+        <h4>Upload Test Cases</h4>
+        <input hidden type="file" #fileInput3>
+        <button class="btn-block" type="button" mat-raised-button color="warn" (click)="fileInput3.click()">Choose
+          File</button>
+        <br>
+        <button mat-raised-button color="primary" class="up-btn">Upload</button>
+      </div>
+      <div class="flex-div3">
+        <mat-form-field appearance="fill">
+          <mat-label>Select Voice Actor</mat-label>
+          <mat-select [(ngModel)]="select_value">
+            <mat-option *ngFor="let voice of voices" [value]="voice.value">
+              {{voice.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="warn" (click)="demo()">Generate Demo</button>
+      </div>
+    </div>
+
+    <div class="spinner-con1" [hidden]="hide_spinner3">
+      <mat-spinner class="spinner1"></mat-spinner>
+      <p id="server-msg2" #servermsg2>Analyzing data...</p>
+    </div>
+
+  <div class="demo-video-con" [hidden]="hide_video">
+      <app-video-player [vid_url]="value1"></app-video-player>
+    </div>
+
+    <div class="steps-btn">
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+
+  <!-- <app-snackbar (semit)="generateSnackbar($event)"></app-snackbar> -->
+
+</mat-stepper>
