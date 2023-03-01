@@ -20,6 +20,7 @@ parts/
 sdist/
 var/
 PPT/
+*/bin/
 Resources/persistent.pptx
 Logs/app.log
 wheels/
